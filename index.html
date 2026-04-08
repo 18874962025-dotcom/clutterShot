@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<!--
+  index.html
+  ClutterShot Support Site
+
+  Created by Codex on 2026-04-08.
+  Copyright © 2026 luoliang. All rights reserved.
+-->
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>截了个寂寞 ClutterShot | 技术支持</title>
+  <meta
+    name="description"
+    content="截了个寂寞 ClutterShot 技术支持页。了解截图清理、重复照片检测、相似照片分组、智能分类与本地处理隐私说明。"
+  >
+  <style>
+    :root {
+      --cream: #fffaf2;
+      --peach: #ffe7d6;
+      --apricot: #ffc997;
+      --orange: #f28b54;
+      --orange-deep: #df6e39;
+      --ink: #2e2a27;
+      --muted: #6e635d;
+      --card: rgba(255, 255, 255, 0.86);
+      --line: rgba(223, 110, 57, 0.16);
+      --shadow: 0 20px 48px rgba(242, 139, 84, 0.18);
+      --radius-xl: 28px;
+      --radius-lg: 22px;
+      --radius-md: 16px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: "SF Pro Display", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at top right, rgba(255, 227, 196, 0.96), transparent 28%),
+        radial-gradient(circle at left bottom, rgba(255, 210, 172, 0.7), transparent 24%),
+        linear-gradient(180deg, #fff8ef 0%, #fffefb 100%);
+    }
+
+    body::before,
+    body::after {
+      content: "";
+      position: fixed;
+      z-index: -1;
+      border-radius: 999px;
+      filter: blur(8px);
+      opacity: 0.7;
+    }
+
+    body::before {
+      width: 220px;
+      height: 220px;
+      top: 48px;
+      right: -48px;
+      background: rgba(255, 202, 152, 0.52);
+    }
+
+    body::after {
+      width: 180px;
+      height: 180px;
+      left: -32px;
+      bottom: 96px;
+      background: rgba(255, 232, 185, 0.48);
+    }
+
+    .wrap {
+      width: min(1120px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 24px 0 64px;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .logo {
+      width: 52px;
+      height: 52px;
+      border-radius: 18px;
+      background: linear-gradient(145deg, #fff2e3 0%, #ffc98d 100%);
+      box-shadow: inset 0 2px 10px rgba(255, 255, 255, 0.7), 0 14px 28px rgba(242, 139, 84, 0.24);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .logo::before,
+    .logo::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      margin: auto;
+      border-radius: 999px;
+    }
+
+    .logo::before {
+      width: 28px;
+      height: 28px;
+      border: 4px solid rgba(255, 255, 255, 0.9);
+    }
+
+    .logo::after {
+      width: 10px;
+      height: 10px;
+      background: rgba(223, 110, 57, 0.92);
+      top: 26px;
+      left: 26px;
+      box-shadow:
+        -10px -10px 0 4px rgba(242, 139, 84, 0.25),
+        10px 10px 0 2px rgba(255, 255, 255, 0.32);
+    }
+
+    .brand-copy h1 {
+      margin: 0;
+      font-size: clamp(1.3rem, 3vw, 1.9rem);
+      line-height: 1.1;
+    }
+
+    .brand-copy p {
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: 0.96rem;
+    }
+
+    .lang-switch {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.8);
+      border: 1px solid rgba(242, 139, 84, 0.16);
+      box-shadow: 0 8px 20px rgba(242, 139, 84, 0.08);
+    }
+
+    .lang-btn {
+      border: 0;
+      background: transparent;
+      color: var(--muted);
+      padding: 10px 14px;
+      border-radius: 999px;
+      font-size: 0.94rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .lang-btn.active {
+      background: linear-gradient(180deg, #ffb780 0%, #f2874e 100%);
+      color: #fff;
+      box-shadow: 0 10px 20px rgba(242, 139, 84, 0.28);
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(145deg, rgba(255, 249, 240, 0.96), rgba(255, 234, 218, 0.92));
+      border: 1px solid rgba(242, 139, 84, 0.16);
+      border-radius: 32px;
+      padding: 28px;
+      box-shadow: var(--shadow);
+      margin-bottom: 18px;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      top: -48px;
+      right: -24px;
+      width: 180px;
+      height: 180px;
+      border-radius: 999px;
+      background: radial-gradient(circle, rgba(255, 211, 168, 0.7), rgba(255, 211, 168, 0));
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.5fr 1fr;
+      gap: 20px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero h2 {
+      margin: 0 0 12px;
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      line-height: 1.08;
+    }
+
+    .hero p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 1rem;
+      line-height: 1.7;
+      max-width: 58ch;
+    }
+
+    .hero-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.82);
+      border: 1px solid rgba(242, 139, 84, 0.12);
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: var(--ink);
+    }
+
+    .privacy-card {
+      background: rgba(255, 255, 255, 0.84);
+      border: 1px solid rgba(242, 139, 84, 0.16);
+      border-radius: 24px;
+      padding: 18px;
+      align-self: stretch;
+    }
+
+    .privacy-card h3 {
+      margin: 0 0 12px;
+      font-size: 1.02rem;
+    }
+
+    .privacy-card p {
+      font-size: 0.95rem;
+      line-height: 1.72;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-xl);
+      padding: 22px;
+      box-shadow: 0 16px 36px rgba(242, 139, 84, 0.08);
+      backdrop-filter: blur(12px);
+    }
+
+    .card h3 {
+      margin: 0 0 12px;
+      font-size: 1.06rem;
+    }
+
+    .card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .span-7 { grid-column: span 7; }
+    .span-5 { grid-column: span 5; }
+    .span-6 { grid-column: span 6; }
+    .span-12 { grid-column: span 12; }
+
+    .section-title {
+      margin: 28px 0 16px;
+      font-size: 1.2rem;
+    }
+
+    ul.feature-list,
+    ul.faq-list,
+    ul.note-list {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 12px;
+    }
+
+    li.item {
+      padding: 14px 16px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.72);
+      border: 1px solid rgba(242, 139, 84, 0.12);
+    }
+
+    .item strong {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 0.98rem;
+    }
+
+    .item span,
+    .item p {
+      display: block;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.68;
+      font-size: 0.95rem;
+    }
+
+    .steps {
+      display: grid;
+      gap: 12px;
+    }
+
+    .step {
+      display: grid;
+      grid-template-columns: 40px 1fr;
+      gap: 12px;
+      align-items: start;
+      padding: 14px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.74);
+      border: 1px solid rgba(242, 139, 84, 0.12);
+    }
+
+    .step-num {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 14px;
+      background: linear-gradient(180deg, #ffbd8a 0%, #f28b54 100%);
+      color: #fff;
+      font-weight: 800;
+    }
+
+    .step strong {
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .contact-box {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    .contact-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 14px;
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.78);
+      border: 1px solid rgba(242, 139, 84, 0.14);
+    }
+
+    .contact-pill button {
+      border: 0;
+      background: linear-gradient(180deg, #ffb780 0%, #f2874e 100%);
+      color: #fff;
+      border-radius: 999px;
+      padding: 8px 12px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .contact-pill button:hover {
+      filter: brightness(0.98);
+    }
+
+    .muted {
+      color: var(--muted);
+    }
+
+    .footer {
+      margin-top: 22px;
+      padding: 18px 0 8px;
+      color: var(--muted);
+      font-size: 0.92rem;
+      text-align: center;
+    }
+
+    .lang-panel {
+      display: none;
+    }
+
+    .lang-panel.active {
+      display: block;
+    }
+
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: 22px;
+      transform: translateX(-50%) translateY(18px);
+      background: rgba(46, 42, 39, 0.92);
+      color: #fff;
+      padding: 10px 14px;
+      border-radius: 999px;
+      font-size: 0.92rem;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.2s ease;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    @media (max-width: 860px) {
+      .hero-grid,
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      .span-7,
+      .span-5,
+      .span-6,
+      .span-12 {
+        grid-column: span 1;
+      }
+
+      .topbar {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .lang-switch {
+        width: fit-content;
+        align-self: flex-end;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .wrap {
+        width: min(100% - 20px, 1120px);
+      }
+
+      .hero,
+      .card {
+        padding: 18px;
+      }
+
+      .brand-copy h1 {
+        font-size: 1.25rem;
+      }
+
+      .contact-pill {
+        width: 100%;
+        justify-content: space-between;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="topbar">
+      <a class="brand" href="#top" aria-label="ClutterShot Support Home">
+        <span class="logo" aria-hidden="true"></span>
+        <span class="brand-copy">
+          <h1>截了个寂寞 ClutterShot</h1>
+          <p>Technical Support · Local-first photo cleanup and organization</p>
+        </span>
+      </a>
+
+      <div class="lang-switch" role="tablist" aria-label="Language switch">
+        <button class="lang-btn active" data-lang-target="zh" type="button">简体中文</button>
+        <button class="lang-btn" data-lang-target="en" type="button">English</button>
+      </div>
+    </div>
+
+    <main id="top">
+      <section class="lang-panel active" data-lang-panel="zh">
+        <section class="hero">
+          <div class="hero-grid">
+            <div>
+              <h2>把相册整理得更轻松一点，<br>也更安心一点。</h2>
+              <p>
+                截了个寂寞 ClutterShot 是一款本地相册整理工具，支持截图清理、重复照片检测、相似照片分组、智能命名建议和本地分类整理。
+                所有分析都在设备本机完成，不上传你的照片到任何服务器。
+              </p>
+              <div class="hero-badges">
+                <span class="badge">截图清理</span>
+                <span class="badge">重复照片</span>
+                <span class="badge">相似照片</span>
+                <span class="badge">智能分类</span>
+                <span class="badge">本地处理</span>
+              </div>
+            </div>
+
+            <aside class="privacy-card">
+              <h3>隐私与处理说明</h3>
+              <p>
+                ClutterShot 当前没有任何服务器保存。照片、缩略图、哈希、分类索引和分析结果都只保存在本机，本地处理完成后直接展示给你。
+              </p>
+            </aside>
+          </div>
+        </section>
+
+        <h2 class="section-title">快速支持</h2>
+        <section class="grid">
+          <article class="card span-7">
+            <h3>你可以用它做什么</h3>
+            <ul class="feature-list">
+              <li class="item">
+                <strong>截图清理</strong>
+                <span>识别相册中的截图，按时间查看并批量勾选删除。</span>
+              </li>
+              <li class="item">
+                <strong>重复与相似照片整理</strong>
+                <span>找出完全重复的图片和相似照片组，辅助你更快完成筛选。</span>
+              </li>
+              <li class="item">
+                <strong>分类与命名建议</strong>
+                <span>基于时间、地点和媒体信息生成建议标题，并支持本地分类与同步到系统相册。</span>
+              </li>
+            </ul>
+          </article>
+
+          <article class="card span-5">
+            <h3>使用前建议</h3>
+            <ul class="note-list">
+              <li class="item">
+                <strong>开启照片权限</strong>
+                <span>首次使用需要授予照片访问权限，才能进行分析和整理。</span>
+              </li>
+              <li class="item">
+                <strong>先分析再批量操作</strong>
+                <span>建议先完成本地分析，再查看截图、重复项和智能分类建议。</span>
+              </li>
+              <li class="item">
+                <strong>删除会进入“最近删除”</strong>
+                <span>通过系统相册接口删除的照片不会立刻永久移除，可在系统“最近删除”中恢复。</span>
+              </li>
+            </ul>
+          </article>
+
+          <article class="card span-6">
+            <h3>常见问题</h3>
+            <ul class="faq-list">
+              <li class="item">
+                <strong>为什么需要先分析相册？</strong>
+                <p>因为截图、重复项、相似组和智能分类都依赖本地扫描结果。分析完成后，页面会显示可操作内容。</p>
+              </li>
+              <li class="item">
+                <strong>为什么有些照片没有出现在结果里？</strong>
+                <p>可能是当前权限仅允许访问部分照片，或者该照片还未纳入本轮分析结果。你可以重新执行一次本地分析。</p>
+              </li>
+              <li class="item">
+                <strong>删除后为什么还能在系统里看到？</strong>
+                <p>这是 iOS 的正常行为。照片会先进入“最近删除”，并不会马上永久消失。</p>
+              </li>
+            </ul>
+          </article>
+
+          <article class="card span-6">
+            <h3>使用步骤</h3>
+            <div class="steps">
+              <div class="step">
+                <span class="step-num">1</span>
+                <div>
+                  <strong>打开 App 并授权相册访问</strong>
+                  <span class="muted">建议授予完整访问权限，以获得完整分析结果。</span>
+                </div>
+              </div>
+              <div class="step">
+                <span class="step-num">2</span>
+                <div>
+                  <strong>点击开始本地分析</strong>
+                  <span class="muted">分析过程中会生成截图、重复项、相似项和分类建议。</span>
+                </div>
+              </div>
+              <div class="step">
+                <span class="step-num">3</span>
+                <div>
+                  <strong>预览、勾选并整理</strong>
+                  <span class="muted">你可以先预览大图，再选择删除、保存为本地分类或同步到系统相册。</span>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article class="card span-12">
+            <h3>联系我们</h3>
+            <p>
+              如果你遇到问题、想反馈建议，或者希望联系作者合作，可以使用下面的联系方式。
+            </p>
+            <div class="contact-box">
+              <div class="contact-pill">
+                <span><strong>QQ</strong> 549104032</span>
+                <button type="button" data-copy="549104032">复制 QQ</button>
+              </div>
+              <div class="contact-pill">
+                <span><strong>当前版本</strong> 1.0.0</span>
+              </div>
+            </div>
+          </article>
+        </section>
+      </section>
+
+      <section class="lang-panel" data-lang-panel="en">
+        <section class="hero">
+          <div class="hero-grid">
+            <div>
+              <h2>Make your photo library cleaner,<br>lighter, and easier to manage.</h2>
+              <p>
+                ClutterShot is a local-first photo cleanup app for screenshots, duplicate photos, similar shots,
+                smart naming suggestions, and custom album organization. Your photos stay on your device during analysis.
+              </p>
+              <div class="hero-badges">
+                <span class="badge">Screenshot Cleanup</span>
+                <span class="badge">Duplicate Photos</span>
+                <span class="badge">Similar Groups</span>
+                <span class="badge">Smart Albums</span>
+                <span class="badge">On-device</span>
+              </div>
+            </div>
+
+            <aside class="privacy-card">
+              <h3>Privacy Notice</h3>
+              <p>
+                ClutterShot currently uses no server storage. Photos, thumbnails, hashes, local indexes,
+                and analysis results stay on this device and are processed entirely on-device.
+              </p>
+            </aside>
+          </div>
+        </section>
+
+        <h2 class="section-title">Support Overview</h2>
+        <section class="grid">
+          <article class="card span-7">
+            <h3>What ClutterShot helps you do</h3>
+            <ul class="feature-list">
+              <li class="item">
+                <strong>Clean screenshots</strong>
+                <span>Find screenshots in your library, review them by time, and remove them in batches.</span>
+              </li>
+              <li class="item">
+                <strong>Review duplicate and similar photos</strong>
+                <span>Detect exact duplicates and group visually similar photos to make sorting easier.</span>
+              </li>
+              <li class="item">
+                <strong>Create and organize albums</strong>
+                <span>Use smart naming suggestions, local categories, and optional sync to system albums.</span>
+              </li>
+            </ul>
+          </article>
+
+          <article class="card span-5">
+            <h3>Before you begin</h3>
+            <ul class="note-list">
+              <li class="item">
+                <strong>Allow photo access</strong>
+                <span>The app needs permission to analyze your library and perform album organization tasks.</span>
+              </li>
+              <li class="item">
+                <strong>Run local analysis first</strong>
+                <span>Results for screenshots, duplicate items, similar groups, and smart categories depend on the latest scan.</span>
+              </li>
+              <li class="item">
+                <strong>Deleted items go to Recently Deleted</strong>
+                <span>Photos are removed through the system photo library flow and are not permanently erased right away.</span>
+              </li>
+            </ul>
+          </article>
+
+          <article class="card span-6">
+            <h3>Frequently Asked Questions</h3>
+            <ul class="faq-list">
+              <li class="item">
+                <strong>Why do I need to analyze the library first?</strong>
+                <p>The app builds its screenshot, duplicate, similar, and smart grouping results from the latest on-device scan.</p>
+              </li>
+              <li class="item">
+                <strong>Why are some photos missing from the results?</strong>
+                <p>This may happen if photo access is limited or if the asset has not been included in the most recent analysis yet.</p>
+              </li>
+              <li class="item">
+                <strong>Why can I still see deleted items in Photos?</strong>
+                <p>That is expected on iOS. Removed items are first moved to Recently Deleted by the system.</p>
+              </li>
+            </ul>
+          </article>
+
+          <article class="card span-6">
+            <h3>Quick Start</h3>
+            <div class="steps">
+              <div class="step">
+                <span class="step-num">1</span>
+                <div>
+                  <strong>Open the app and grant Photos access</strong>
+                  <span class="muted">Full access is recommended for complete results.</span>
+                </div>
+              </div>
+              <div class="step">
+                <span class="step-num">2</span>
+                <div>
+                  <strong>Start local analysis</strong>
+                  <span class="muted">ClutterShot scans your library on-device and prepares cleanup results.</span>
+                </div>
+              </div>
+              <div class="step">
+                <span class="step-num">3</span>
+                <div>
+                  <strong>Preview and organize</strong>
+                  <span class="muted">Review photos, remove selected items, save local categories, or sync to system albums.</span>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article class="card span-12">
+            <h3>Contact</h3>
+            <p>
+              If you need help, want to share feedback, or would like to discuss collaboration, use the contact below.
+            </p>
+            <div class="contact-box">
+              <div class="contact-pill">
+                <span><strong>Support Contact</strong> 18874962025</span>
+                <button type="button" data-copy="18874962025">Copy</button>
+              </div>
+              <div class="contact-pill">
+                <span><strong>Current Version</strong> 1.0.0</span>
+              </div>
+            </div>
+          </article>
+        </section>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div>Copyright © 2026 luoliang. All rights reserved.</div>
+      <div>ClutterShot / 截了个寂寞 · Technical Support Page</div>
+    </footer>
+  </div>
+
+  <div class="toast" id="copy-toast" role="status" aria-live="polite"></div>
+
+  <script>
+    const langButtons = document.querySelectorAll("[data-lang-target]");
+    const langPanels = document.querySelectorAll("[data-lang-panel]");
+    const pageTitle = {
+      zh: "截了个寂寞 ClutterShot | 技术支持",
+      en: "ClutterShot | Technical Support"
+    };
+
+    function switchLanguage(lang) {
+      document.documentElement.lang = lang === "zh" ? "zh-CN" : "en";
+      document.title = pageTitle[lang];
+
+      langButtons.forEach((button) => {
+        button.classList.toggle("active", button.dataset.langTarget === lang);
+      });
+
+      langPanels.forEach((panel) => {
+        panel.classList.toggle("active", panel.dataset.langPanel === lang);
+      });
+    }
+
+    langButtons.forEach((button) => {
+      button.addEventListener("click", () => switchLanguage(button.dataset.langTarget));
+    });
+
+    const toast = document.getElementById("copy-toast");
+    let toastTimer = null;
+
+    function showToast(message) {
+      toast.textContent = message;
+      toast.classList.add("show");
+      window.clearTimeout(toastTimer);
+      toastTimer = window.setTimeout(() => {
+        toast.classList.remove("show");
+      }, 1800);
+    }
+
+    document.querySelectorAll("[data-copy]").forEach((button) => {
+      button.addEventListener("click", async () => {
+        const value = button.dataset.copy;
+
+        try {
+          await navigator.clipboard.writeText(value);
+          showToast("已复制 / Copied");
+        } catch (error) {
+          showToast(value);
+        }
+      });
+    });
+  </script>
+</body>
+</html>
