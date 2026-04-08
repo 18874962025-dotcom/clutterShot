@@ -13,7 +13,7 @@
   <title>截了个寂寞 ClutterShot | 隐私政策</title>
   <meta
     name="description"
-    content="截了个寂寞 ClutterShot 隐私政策。说明照片权限、本地处理、数据存储、系统相册同步与联系我们方式。"
+    content="截了个寂寞 ClutterShot 隐私政策，说明本地处理、照片权限、Apple 服务、数据存储与联系方式。"
   >
   <style>
     :root {
@@ -25,16 +25,14 @@
       --card: rgba(255, 255, 255, 0.9);
       --orange: #f28b54;
       --orange-deep: #df6e39;
-      --gold: #ffcb95;
       --shadow: 0 20px 48px rgba(242, 139, 84, 0.14);
       --radius-xl: 28px;
       --radius-lg: 22px;
       --radius-md: 16px;
     }
 
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
 
     body {
       margin: 0;
@@ -204,13 +202,8 @@
       line-height: 1.7;
     }
 
-    .panel {
-      display: none;
-    }
-
-    .panel.active {
-      display: block;
-    }
+    .panel { display: none; }
+    .panel.active { display: block; }
 
     .grid {
       display: grid;
@@ -228,116 +221,60 @@
       backdrop-filter: blur(12px);
     }
 
-    .card.half {
-      grid-column: span 6;
-    }
+    .card.half { grid-column: span 6; }
 
     .card h3 {
       margin: 0 0 12px;
       font-size: 1.06rem;
     }
 
-    .card p {
-      margin: 0 0 10px;
+    .card p,
+    .card li {
       color: var(--muted);
       line-height: 1.78;
+      font-size: 0.98rem;
     }
 
-    .card p:last-child {
-      margin-bottom: 0;
-    }
-
-    .card ul {
-      margin: 0;
-      padding-left: 18px;
-      color: var(--muted);
-      line-height: 1.78;
-    }
+    .card p:last-child { margin-bottom: 0; }
+    .card ul { margin: 0; padding-left: 18px; }
 
     .meta {
       display: flex;
       flex-wrap: wrap;
       gap: 10px;
-      margin-top: 14px;
+      margin: 0 0 12px;
+      padding: 0;
+      list-style: none;
     }
 
-    .tag {
-      display: inline-flex;
-      align-items: center;
-      padding: 10px 14px;
-      border-radius: 999px;
-      background: rgba(255, 255, 255, 0.82);
-      border: 1px solid var(--line);
-      font-weight: 700;
-      font-size: 0.92rem;
-    }
-
-    .contact-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      padding: 12px 14px;
-      border-radius: 16px;
-      background: rgba(255, 255, 255, 0.82);
-      border: 1px solid var(--line);
-      margin-top: 10px;
-    }
-
-    .contact-pill button {
-      border: 0;
-      cursor: pointer;
-      border-radius: 999px;
+    .meta li {
       padding: 8px 12px;
-      color: #fff;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.85);
+      border: 1px solid var(--line);
+      font-size: 0.9rem;
+      color: var(--ink);
+    }
+
+    a.link {
+      color: var(--orange-deep);
+      text-decoration: none;
       font-weight: 700;
-      background: linear-gradient(180deg, #ffb780 0%, #f2874e 100%);
     }
 
     .footer {
-      text-align: center;
+      margin-top: 18px;
       color: var(--muted);
       font-size: 0.92rem;
-      padding-top: 18px;
+      text-align: center;
     }
 
-    .toast {
-      position: fixed;
-      left: 50%;
-      bottom: 22px;
-      transform: translateX(-50%) translateY(18px);
-      background: rgba(45, 41, 38, 0.94);
-      color: #fff;
-      padding: 10px 14px;
-      border-radius: 999px;
-      font-size: 0.92rem;
-      opacity: 0;
-      pointer-events: none;
-      transition: all 0.2s ease;
-    }
-
-    .toast.show {
-      opacity: 1;
-      transform: translateX(-50%) translateY(0);
-    }
-
-    @media (max-width: 860px) {
-      .hero-content,
-      .grid {
-        grid-template-columns: 1fr;
-      }
-
-      .card.half {
-        grid-column: span 12;
-      }
-
+    @media (max-width: 840px) {
+      .hero-content { grid-template-columns: 1fr; }
+      .card.half { grid-column: span 12; }
       .topbar {
         flex-direction: column;
-        align-items: stretch;
-      }
-
-      .lang-switch {
-        width: fit-content;
-        align-self: flex-end;
+        align-items: flex-start;
       }
     }
   </style>
@@ -349,329 +286,259 @@
         <span class="logo" aria-hidden="true"></span>
         <span>
           <h1>截了个寂寞 ClutterShot</h1>
-          <p>Privacy Policy · On-device photo cleanup and album organization</p>
+          <p>Privacy Policy / 隐私政策</p>
         </span>
       </a>
 
       <div class="lang-switch" role="tablist" aria-label="Language Switch">
-        <button class="lang-btn active" type="button" data-lang-target="zh">简体中文</button>
-        <button class="lang-btn" type="button" data-lang-target="en">English</button>
+        <button class="lang-btn active" data-lang="zh" role="tab" aria-selected="true">中文</button>
+        <button class="lang-btn" data-lang="en" role="tab" aria-selected="false">English</button>
       </div>
     </div>
 
-    <section class="panel active" data-lang-panel="zh">
-      <section class="hero">
+    <section class="hero">
+      <div class="panel active" data-panel="zh">
         <div class="hero-content">
           <div>
-            <h2>隐私政策</h2>
+            <h2>照片默认只在你的设备上处理。</h2>
             <p>
-              欢迎使用截了个寂寞 ClutterShot。本隐私政策说明你在使用本应用时，我们如何处理照片访问权限、本地分析结果和与你设备相关的数据。
-              当前版本的 ClutterShot 以本地处理为核心，不提供账号系统，不建立远程服务器存储照片，也不会将你的照片上传到云端进行分析。
+              截了个寂寞 ClutterShot 主要用于本地分析截图、完全重复照片、相似照片和相册分类建议。
+              我们不会把你的照片、缩略图、哈希或分类索引上传到开发者服务器。
             </p>
-            <div class="meta">
-              <span class="tag">生效日期：2026-04-08</span>
-              <span class="tag">当前版本：1.0.0</span>
-              <span class="tag">仅本地处理</span>
-            </div>
           </div>
-
-          <aside class="summary-box">
-            <h3>核心说明</h3>
+          <div class="summary-box">
+            <h3>要点摘要</h3>
             <ul>
-              <li>不创建账号，不要求登录。</li>
-              <li>不上传照片、缩略图或分析结果到服务器。</li>
-              <li>相册扫描、重复检测、相似分组与本地分类均在设备本机完成。</li>
-              <li>只有在你主动操作时，应用才会通过系统接口删除照片或同步到系统相册。</li>
+              <li>不向开发者服务器上传照片内容</li>
+              <li>照片分析、哈希和分类索引默认在本机完成</li>
+              <li>购买由 Apple StoreKit 处理</li>
+              <li>地点命名增强可能调用 Apple 地理服务</li>
             </ul>
-          </aside>
-        </div>
-      </section>
-
-      <section class="grid">
-        <article class="card half">
-          <h3>1. 我们访问哪些信息</h3>
-          <p>为了完成相册整理功能，ClutterShot 可能访问以下信息：</p>
-          <ul>
-            <li>你授权访问的照片与视频资源。</li>
-            <li>照片的基础元数据，例如创建时间、修改时间、分辨率、媒体类型、是否为截图、是否收藏、地理位置信息（若照片本身含有此信息）。</li>
-            <li>用于本地检测的缩略图、哈希值、相似特征值和分类索引。</li>
-          </ul>
-        </article>
-
-        <article class="card half">
-          <h3>2. 我们如何使用这些信息</h3>
-          <ul>
-            <li>识别截图并按时间分组展示。</li>
-            <li>检测完全重复照片与相似照片组。</li>
-            <li>生成智能命名建议和本地分类建议。</li>
-            <li>显示预览图、空间释放估算和清理结果。</li>
-            <li>在你确认后，通过系统相册接口执行删除或创建系统相册同步。</li>
-          </ul>
-        </article>
-
-        <article class="card">
-          <h3>3. 本地处理与存储说明</h3>
-          <p>
-            ClutterShot 当前没有任何服务器保存。照片、缩略图、哈希值、相似度特征、本地分类索引和分析结果都只保存在你的设备本机，用于提升再次打开应用时的速度与体验。
-          </p>
-          <p>
-            这些本地数据通常存储在应用沙盒环境中，仅供本应用使用。我们不会将它们出售、共享、出租或传输给第三方。
-          </p>
-        </article>
-
-        <article class="card half">
-          <h3>4. 删除与系统相册同步</h3>
-          <p>
-            当你执行删除操作时，应用会调用 iOS 系统相册提供的接口完成操作。被删除的照片通常会先进入系统“最近删除”，并不一定会立即永久消失。
-          </p>
-          <p>
-            当你选择“同步到系统相册”时，应用会在你确认后创建或写入系统相册。该行为仅在本机生效，由你主动触发。
-          </p>
-        </article>
-
-        <article class="card half">
-          <h3>5. 权限说明</h3>
-          <ul>
-            <li>照片权限：用于分析、预览、整理和删除你授权范围内的媒体资源。</li>
-            <li>添加照片权限：用于将删除操作提交给系统相册接口，或在需要时创建系统相册并写入资源。</li>
-          </ul>
-          <p>如果你仅授予有限照片权限，应用只能访问你选定的那部分资源。</p>
-        </article>
-
-        <article class="card half">
-          <h3>6. 第三方服务与数据共享</h3>
-          <p>
-            根据当前版本，我们没有集成第三方广告 SDK、第三方统计 SDK，也没有提供登录、云备份或远程账号服务。
-          </p>
-          <p>
-            除非法律法规要求，或你主动通过系统功能将内容分享给其他应用，我们不会向第三方披露你的照片和分析数据。
-          </p>
-        </article>
-
-        <article class="card half">
-          <h3>7. 数据保留与删除</h3>
-          <p>
-            本地索引和分类数据会保留在你的设备上，以便提升后续扫描与浏览体验。你可以通过删除应用来移除这些应用内本地数据。
-          </p>
-          <p>
-            由于系统相册由 iOS 管理，已同步到系统相册或已删除到“最近删除”的照片，仍需通过系统相册进行进一步管理。
-          </p>
-        </article>
-
-        <article class="card">
-          <h3>8. 未成年人隐私</h3>
-          <p>
-            本应用不面向未满 13 周岁的儿童主动收集个人信息，也不提供面向儿童的账号或社区功能。如监护人认为儿童在未经同意的情况下向本应用提供了信息，请联系我们，我们会在合理范围内协助说明。
-          </p>
-        </article>
-
-        <article class="card half">
-          <h3>9. 政策更新</h3>
-          <p>
-            如果未来功能发生变化，例如引入新的同步方式、账号系统或额外数据处理方式，我们会更新本隐私政策，并在新版本中发布更新后的内容。
-          </p>
-        </article>
-
-        <article class="card half">
-          <h3>10. 联系我们</h3>
-          <p>如果你对本隐私政策有任何问题、建议或投诉，可以通过以下方式联系：</p>
-          <div class="contact-pill">
-            <span><strong>QQ</strong> 549104032</span>
-            <button type="button" data-copy="549104032">复制 QQ</button>
           </div>
-        </article>
-      </section>
-    </section>
+        </div>
+      </div>
 
-    <section class="panel" data-lang-panel="en">
-      <section class="hero">
+      <div class="panel" data-panel="en">
         <div class="hero-content">
           <div>
-            <h2>Privacy Policy</h2>
+            <h2>Your photos stay on your device by default.</h2>
             <p>
-              Welcome to ClutterShot. This Privacy Policy explains how the app handles photo permissions,
-              on-device analysis results, and device-related data when you use the app.
-              The current version of ClutterShot is built around on-device processing. It does not require accounts,
-              does not upload your photos to a server, and does not use cloud-based photo analysis.
+              ClutterShot primarily analyzes screenshots, exact duplicates, similar photos,
+              and album suggestions on-device. We do not upload your photos, thumbnails,
+              hashes, or collection indexes to the developer's servers.
             </p>
-            <div class="meta">
-              <span class="tag">Effective Date: 2026-04-08</span>
-              <span class="tag">Current Version: 1.0.0</span>
-              <span class="tag">On-device Processing</span>
-            </div>
           </div>
-
-          <aside class="summary-box">
-            <h3>Key Points</h3>
+          <div class="summary-box">
+            <h3>At a glance</h3>
             <ul>
-              <li>No account creation and no sign-in required.</li>
-              <li>No photo uploads, remote photo storage, or cloud-side analysis.</li>
-              <li>Screenshot cleanup, duplicate detection, similar grouping, and local categorization run on-device.</li>
-              <li>Deletion and system album sync happen only when you actively confirm those actions.</li>
+              <li>No photo uploads to the developer's servers</li>
+              <li>Analysis, hashing, and indexing run on-device by default</li>
+              <li>Purchases are handled by Apple StoreKit</li>
+              <li>Location-enhanced naming may use Apple geocoding services</li>
             </ul>
-          </aside>
-        </div>
-      </section>
-
-      <section class="grid">
-        <article class="card half">
-          <h3>1. Information the app may access</h3>
-          <p>To provide photo cleanup and organization features, ClutterShot may access:</p>
-          <ul>
-            <li>Photos and videos you authorize the app to access.</li>
-            <li>Basic metadata such as creation date, modification date, resolution, media type, screenshot flag, favorite state, and location information if it exists on the asset.</li>
-            <li>Locally generated thumbnails, hashes, similarity fingerprints, and classification indexes used for on-device analysis.</li>
-          </ul>
-        </article>
-
-        <article class="card half">
-          <h3>2. How the information is used</h3>
-          <ul>
-            <li>To identify screenshots and group them by time.</li>
-            <li>To detect exact duplicates and visually similar photo groups.</li>
-            <li>To generate smart naming suggestions and local album suggestions.</li>
-            <li>To show previews, estimated storage savings, and cleanup results.</li>
-            <li>To delete selected assets or sync assets into system albums after you confirm the action.</li>
-          </ul>
-        </article>
-
-        <article class="card">
-          <h3>3. On-device processing and storage</h3>
-          <p>
-            ClutterShot currently uses no server storage. Photos, thumbnails, hashes, similarity fingerprints,
-            local album indexes, and analysis results remain on your device and are processed locally.
-          </p>
-          <p>
-            This local data is generally stored inside the app sandbox and is used only by ClutterShot.
-            It is not sold, rented, shared, or transmitted to third parties by the app.
-          </p>
-        </article>
-
-        <article class="card half">
-          <h3>4. Deletion and sync with system albums</h3>
-          <p>
-            When you delete assets, the app uses the iOS Photos system APIs. Deleted items may first move to the
-            Recently Deleted album rather than being removed permanently right away.
-          </p>
-          <p>
-            When you choose to sync to a system album, the app creates or updates that album only after your confirmation,
-            and the action takes place locally on your device.
-          </p>
-        </article>
-
-        <article class="card half">
-          <h3>5. Permissions</h3>
-          <ul>
-            <li>Photos permission: used to analyze, preview, organize, and delete media within your authorized scope.</li>
-            <li>Add Photos permission: used when the app needs to perform system album changes, including deletion requests and album creation or asset insertion.</li>
-          </ul>
-          <p>If you grant limited access, the app can only work with the selected items available to it.</p>
-        </article>
-
-        <article class="card half">
-          <h3>6. Third-party services and data sharing</h3>
-          <p>
-            Based on the current version, ClutterShot does not integrate third-party ad SDKs, third-party analytics SDKs,
-            sign-in providers, or cloud account services.
-          </p>
-          <p>
-            Unless required by law, or unless you intentionally share content through system-level features,
-            the app does not disclose your photos or analysis data to third parties.
-          </p>
-        </article>
-
-        <article class="card half">
-          <h3>7. Data retention and removal</h3>
-          <p>
-            Local indexes and category data may remain on your device to improve future analysis speed and browsing experience.
-            You can remove app-local data by deleting the app.
-          </p>
-          <p>
-            Assets already synced to system albums or moved to Recently Deleted remain subject to Apple's Photos app behavior
-            and should be managed there if needed.
-          </p>
-        </article>
-
-        <article class="card">
-          <h3>8. Children's privacy</h3>
-          <p>
-            ClutterShot is not intended to knowingly collect personal information from children under 13.
-            The app does not provide child-oriented accounts, community features, or direct user-generated profile systems.
-            If a guardian believes information has been provided improperly, please contact us.
-          </p>
-        </article>
-
-        <article class="card half">
-          <h3>9. Policy updates</h3>
-          <p>
-            If ClutterShot introduces new features in the future, such as new sync methods, account services,
-            or additional data handling flows, this Privacy Policy may be updated accordingly.
-          </p>
-        </article>
-
-        <article class="card half">
-          <h3>10. Contact</h3>
-          <p>If you have any questions, suggestions, or concerns about this Privacy Policy, you can contact us below:</p>
-          <div class="contact-pill">
-            <span><strong>Support Contact</strong> 18874962025</span>
-            <button type="button" data-copy="18874962025">Copy</button>
           </div>
-        </article>
-      </section>
+        </div>
+      </div>
     </section>
 
-    <footer class="footer">
-      <div>Copyright © 2026 luoliang. All rights reserved.</div>
-      <div><a href="./index.html" style="color: inherit;">返回技术支持页 / Back to Support</a></div>
-    </footer>
+    <div class="panel active" data-panel="zh">
+      <div class="grid">
+        <section class="card">
+          <ul class="meta">
+            <li>生效日期：2026-04-08</li>
+            <li>应用名称：截了个寂寞 ClutterShot</li>
+            <li>开发者：luoliang</li>
+          </ul>
+          <h3>1. 我们处理哪些信息</h3>
+          <p>为了提供截图清理、重复照片检测、相似照片分组、本地分类和系统相册同步功能，应用可能在你的设备上处理以下信息：</p>
+          <ul>
+            <li>照片资源标识符、创建时间、修改时间、尺寸、是否截图、是否收藏、连拍标识等相册元数据</li>
+            <li>图片文件大小、SHA256 哈希、dHash 指纹、相似分组标记等本地索引信息</li>
+            <li>你在应用内创建的本地分类、命名建议、同步状态和手动整理结果</li>
+          </ul>
+        </section>
+
+        <section class="card half">
+          <h3>2. 本地处理承诺</h3>
+          <p>照片预览、截图识别、完全重复判断、相似分组、空间统计和本地分类整理默认在设备本机完成。</p>
+          <p>我们不会将照片内容、缩略图、哈希、分类索引或分析结果上传到开发者服务器。</p>
+        </section>
+
+        <section class="card half">
+          <h3>3. 可能发生的外部服务访问</h3>
+          <ul>
+            <li>内购由 Apple StoreKit 处理，用于加载商品信息、完成购买和恢复购买</li>
+            <li>如果你使用地点增强命名建议，应用可能调用 Apple 的地理编码服务把照片位置坐标转换为地名</li>
+          </ul>
+          <p>上述访问仅用于 Apple 提供的系统能力，不会把照片上传给开发者服务器。</p>
+        </section>
+
+        <section class="card half">
+          <h3>4. 权限说明</h3>
+          <ul>
+            <li>照片权限：用于读取相册内容、展示分析结果、删除照片和同步系统相册</li>
+            <li>照片添加权限：用于将你确认的整理结果同步到系统相册</li>
+            <li>位置相关信息不会单独请求定位权限，只会在照片本身已包含位置信息时用于地点命名增强</li>
+          </ul>
+        </section>
+
+        <section class="card half">
+          <h3>5. 删除与同步</h3>
+          <ul>
+            <li>删除操作通过 Apple Photos 接口完成，照片通常会进入系统“最近删除”</li>
+            <li>同步到系统相册会创建或更新系统相册，并把你选择的资源加入其中</li>
+            <li>应用内本地分类与系统相册是两套不同层级，只有在你确认同步后才会写入系统相册</li>
+          </ul>
+        </section>
+
+        <section class="card">
+          <h3>6. 本地存储与保留期限</h3>
+          <p>应用会在你的设备本地存储分析索引、本地分类、命名建议状态和购买状态缓存，以便下次打开时更快展示结果。</p>
+          <p>如果你删除应用，这些本地缓存通常会随应用一起移除；系统相册中的照片和你主动同步的系统相册不会因此自动删除。</p>
+        </section>
+
+        <section class="card">
+          <h3>7. 我们不做的事情</h3>
+          <ul>
+            <li>不建立开发者自有照片服务器</li>
+            <li>不上传用户照片内容到开发者服务器</li>
+            <li>不出售或出租你的照片、索引或整理结果</li>
+            <li>不在未经你确认的情况下自动删除或自动同步系统相册</li>
+          </ul>
+        </section>
+
+        <section class="card half">
+          <h3>8. 儿童与敏感内容</h3>
+          <p>本应用不以收集儿童个人信息为目的，也不提供面向儿童的社交或广告画像服务。</p>
+          <p>由于应用会处理你的相册内容，请你仅在充分理解其整理功能的情况下使用。</p>
+        </section>
+
+        <section class="card half">
+          <h3>9. 联系我们</h3>
+          <p>如果你对隐私政策、数据处理方式或功能实现有疑问，可以通过以下方式联系：</p>
+          <ul>
+            <li>QQ：549104032</li>
+            <li>支持主页：<a class="link" href="./index.html">clutterShot 技术支持</a></li>
+          </ul>
+        </section>
+
+        <section class="card">
+          <h3>10. 政策更新</h3>
+          <p>如果未来产品功能、Apple 接口或数据处理方式发生变化，我们会在本页面更新隐私政策内容，并在需要时通过 App Store 或应用内页面提示你查看最新版本。</p>
+        </section>
+      </div>
+    </div>
+
+    <div class="panel" data-panel="en">
+      <div class="grid">
+        <section class="card">
+          <ul class="meta">
+            <li>Effective date: 2026-04-08</li>
+            <li>App: ClutterShot</li>
+            <li>Developer: luoliang</li>
+          </ul>
+          <h3>1. Information processed by the app</h3>
+          <p>To provide screenshot cleanup, exact duplicate detection, similar photo grouping, local collections, and Photos album sync, the app may process the following data on your device:</p>
+          <ul>
+            <li>Photo metadata such as local identifiers, creation time, modification time, dimensions, screenshot flags, favorites, and burst identifiers</li>
+            <li>Local index data such as file size, SHA256 hashes, dHash fingerprints, and similar-cluster markers</li>
+            <li>Local collections, suggestion states, sync states, and organization results created by you inside the app</li>
+          </ul>
+        </section>
+
+        <section class="card half">
+          <h3>2. On-device processing</h3>
+          <p>Photo preview, screenshot detection, exact duplicate checks, similar grouping, storage estimates, and local organization are processed on-device by default.</p>
+          <p>We do not upload your photos, thumbnails, hashes, collection indexes, or analysis results to the developer's servers.</p>
+        </section>
+
+        <section class="card half">
+          <h3>3. External services that may be used</h3>
+          <ul>
+            <li>Apple StoreKit is used for loading product information, completing purchases, and restoring purchases</li>
+            <li>If you use location-enhanced naming, Apple geocoding services may be used to convert existing photo coordinates into place names</li>
+          </ul>
+          <p>These services are provided by Apple and are not used to upload your photos to the developer's servers.</p>
+        </section>
+
+        <section class="card half">
+          <h3>4. Permissions</h3>
+          <ul>
+            <li>Photo access is used to read your library, show analysis results, delete assets, and sync albums</li>
+            <li>Photo add access is used when you choose to sync organization results back to Photos</li>
+            <li>The app does not request standalone location permission; it may only use location already embedded in your photos for naming enhancement</li>
+          </ul>
+        </section>
+
+        <section class="card half">
+          <h3>5. Deletion and sync behavior</h3>
+          <ul>
+            <li>Deletion is performed through Apple Photos APIs and usually moves items to Recently Deleted</li>
+            <li>Syncing to system albums creates or updates a Photos album and adds the assets you selected</li>
+            <li>Local collections and system albums are separate until you explicitly confirm syncing</li>
+          </ul>
+        </section>
+
+        <section class="card">
+          <h3>6. Local storage and retention</h3>
+          <p>The app stores analysis indexes, local collections, suggestion states, and purchase cache information locally on your device so results can load faster next time.</p>
+          <p>If you remove the app, that local cache is typically removed with it. Photos in your system library and albums you explicitly synced are not automatically deleted.</p>
+        </section>
+
+        <section class="card">
+          <h3>7. What we do not do</h3>
+          <ul>
+            <li>We do not operate our own photo-upload server</li>
+            <li>We do not upload your photo content to the developer's servers</li>
+            <li>We do not sell or rent your photos, indexes, or organization results</li>
+            <li>We do not automatically delete photos or sync system albums without your confirmation</li>
+          </ul>
+        </section>
+
+        <section class="card half">
+          <h3>8. Children and sensitive content</h3>
+          <p>This app is not designed to collect children's personal data and does not provide ad profiling or social features for children.</p>
+          <p>Because the app works with your photo library, please use it only when you understand and accept its organization features.</p>
+        </section>
+
+        <section class="card half">
+          <h3>9. Contact</h3>
+          <p>If you have questions about this Privacy Policy or how data is processed, please contact:</p>
+          <ul>
+            <li>Email: 18874962025</li>
+            <li>Support page: <a class="link" href="./index.html">ClutterShot Support</a></li>
+          </ul>
+        </section>
+
+        <section class="card">
+          <h3>10. Updates</h3>
+          <p>If product features, Apple platform behavior, or data handling changes in the future, this page will be updated accordingly. When appropriate, the latest version may also be referenced through App Store metadata or in-app pages.</p>
+        </section>
+      </div>
+    </div>
+
+    <p class="footer">© 2026 luoliang. All rights reserved.</p>
   </div>
 
-  <div class="toast" id="copy-toast" role="status" aria-live="polite"></div>
-
   <script>
-    const buttons = document.querySelectorAll("[data-lang-target]");
-    const panels = document.querySelectorAll("[data-lang-panel]");
-    const titles = {
-      zh: "截了个寂寞 ClutterShot | 隐私政策",
-      en: "ClutterShot | Privacy Policy"
-    };
-
-    function switchLanguage(lang) {
-      document.documentElement.lang = lang === "zh" ? "zh-CN" : "en";
-      document.title = titles[lang];
-
-      buttons.forEach((button) => {
-        button.classList.toggle("active", button.dataset.langTarget === lang);
-      });
-
-      panels.forEach((panel) => {
-        panel.classList.toggle("active", panel.dataset.langPanel === lang);
-      });
-    }
+    const buttons = document.querySelectorAll(".lang-btn");
+    const panels = document.querySelectorAll(".panel");
 
     buttons.forEach((button) => {
-      button.addEventListener("click", () => switchLanguage(button.dataset.langTarget));
-    });
+      button.addEventListener("click", () => {
+        const lang = button.dataset.lang;
 
-    const toast = document.getElementById("copy-toast");
-    let timer = null;
+        buttons.forEach((item) => {
+          const active = item === button;
+          item.classList.toggle("active", active);
+          item.setAttribute("aria-selected", active ? "true" : "false");
+        });
 
-    function showToast(message) {
-      toast.textContent = message;
-      toast.classList.add("show");
-      clearTimeout(timer);
-      timer = setTimeout(() => toast.classList.remove("show"), 1800);
-    }
+        panels.forEach((panel) => {
+          panel.classList.toggle("active", panel.dataset.panel === lang);
+        });
 
-    document.querySelectorAll("[data-copy]").forEach((button) => {
-      button.addEventListener("click", async () => {
-        const value = button.dataset.copy;
-        try {
-          await navigator.clipboard.writeText(value);
-          showToast("已复制 / Copied");
-        } catch (error) {
-          showToast(value);
-        }
+        document.documentElement.lang = lang === "zh" ? "zh-CN" : "en";
       });
     });
   </script>
